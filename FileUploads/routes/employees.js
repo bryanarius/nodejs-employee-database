@@ -83,4 +83,17 @@ router.put('/edit/:id', (req, res)=> {
     })
 });
 
+// Delete route
+router.delete('/delete/:id', (req,res)=> {
+    let searchQuery = {_id : req.params.id}
+
+    Employee.deleteOne(searchQuery)
+    .then(employee=> {
+        res.redirect('/')
+    })
+    .catch(err => {
+        console.log(err)
+    })
+})
+
 module.exports = router;
