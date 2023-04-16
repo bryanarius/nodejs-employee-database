@@ -33,7 +33,7 @@ router.get('/employee', (req,res) => {
             console.log(err)
         })
 })
-// post routes
+// Post routes
 
 router.post('/employee/new', (req,res)=> {
     let newEmployee = {
