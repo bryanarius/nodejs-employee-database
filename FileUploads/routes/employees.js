@@ -33,6 +33,18 @@ router.get('/employee', (req,res) => {
             console.log(err)
         })
 })
+
+router.get('/edit/:id', (req,res) =>{
+
+    let searchQuery = {_id : req.params.id};
+    Employee.findOne(searchQuery)
+    .then(employee => {
+        res.render('edit', {employee:employee})
+    })
+    .catch(err => {
+        console.log(err)
+    })
+})
 // Post routes
 
 router.post('/employee/new', (req,res)=> {
@@ -51,6 +63,24 @@ router.post('/employee/new', (req,res)=> {
             console.log(err)
             res.redirect('/');
         });
+});
+
+// Put routes
+
+router.put('/edit/:id', (req, res)=> {
+    let searchQuery = {_id : req.params.id};
+
+    Employee.updateOne(searchQuery, {$set: {
+        name: req.body.name,
+        designation : req.body.designation,
+        salary : req.body.salary
+    }})
+    .then(employee => {
+        res.redirect('/')
+    })
+    .catch(err => {
+        console.log(err)
+    })
 });
 
 module.exports = router;
