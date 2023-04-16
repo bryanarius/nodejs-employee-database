@@ -9,8 +9,8 @@ router.get('/', (req, res) => {
         res.render('index', {employees : employees});
     })
     .catch(err=> {
-        console.log(err)
-        res.redirect('/');
+        req.flash('error_msg', 'ERROR:' +err)
+        res.redirect('/')
     })
 })
 
@@ -30,7 +30,8 @@ router.get('/employee', (req,res) => {
             res.render('search', {employee:employee})
         })
         .catch(err => {
-            console.log(err)
+            req.flash('error_msg', 'ERROR:' +err)
+            res.redirect('/')
         })
 })
 
@@ -42,7 +43,8 @@ router.get('/edit/:id', (req,res) =>{
         res.render('edit', {employee:employee})
     })
     .catch(err => {
-        console.log(err)
+        req.flash('error_msg', 'ERROR:' +err)
+        res.redirect('/')
     })
 })
 // Post routes
@@ -56,12 +58,12 @@ router.post('/employee/new', (req,res)=> {
 
     Employee.create(newEmployee)
         .then(employee => {
-            console.log('Employee data added to database successfully.')
+            req.flash('success_msg', 'Employee created successfully')
             res.redirect('/');
         })
         .catch(err => {
-            console.log(err)
-            res.redirect('/');
+            req.flash('error_msg', 'ERROR:' +err)
+            res.redirect('/')
         });
 });
 
@@ -76,10 +78,12 @@ router.put('/edit/:id', (req, res)=> {
         salary : req.body.salary
     }})
     .then(employee => {
+        req.flash('success_msg', 'Employee updated successfully')
         res.redirect('/')
     })
     .catch(err => {
-        console.log(err)
+        req.flash('error_msg', 'ERROR:' +err)
+        res.redirect('/')
     })
 });
 
@@ -89,10 +93,12 @@ router.delete('/delete/:id', (req,res)=> {
 
     Employee.deleteOne(searchQuery)
     .then(employee=> {
+        req.flash('success_msg', 'Employee deleted successfully')
         res.redirect('/')
     })
     .catch(err => {
-        console.log(err)
+        req.flash('error_msg', 'ERROR:' +err)
+        res.redirect('/')
     })
 })
 
